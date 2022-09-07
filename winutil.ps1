@@ -35,8 +35,34 @@ $xaml.SelectNodes("//*[@Name]") | % { Set-Variable -Name "WPF$($_.Name)" -Value 
  
 Function Get-FormVariables {
     If ($global:ReadmeDisplay -ne $true) { Write-host "If you need to reference this display again, run Get-FormVariables" -ForegroundColor Yellow; $global:ReadmeDisplay = $true }
-    write-host "Found the following interactable elements from our form" -ForegroundColor Cyan
-    get-variable WPF*
+    
+
+    write-host ""                                                                                                                             
+    write-host "    CCCCCCCCCCCCCTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT   "
+    write-host " CCC::::::::::::CT:::::::::::::::::::::TT:::::::::::::::::::::T   "
+    write-host "CC:::::::::::::::CT:::::::::::::::::::::TT:::::::::::::::::::::T  "
+    write-host "C:::::CCCCCCCC::::CT:::::TT:::::::TT:::::TT:::::TT:::::::TT:::::T "
+    write-host "C:::::C       CCCCCCTTTTTT  T:::::T  TTTTTTTTTTTT  T:::::T  TTTTTT"
+    write-host "C:::::C                     T:::::T                T:::::T        "
+    write-host "C:::::C                     T:::::T                T:::::T        "
+    write-host "C:::::C                     T:::::T                T:::::T        "
+    write-host "C:::::C                     T:::::T                T:::::T        "
+    write-host "C:::::C                     T:::::T                T:::::T        "
+    write-host "C:::::C                     T:::::T                T:::::T        "
+    write-host "C:::::C       CCCCCC        T:::::T                T:::::T        "
+    write-host "C:::::CCCCCCCC::::C      TT:::::::TT            TT:::::::TT       "
+    write-host "CC:::::::::::::::C       T:::::::::T            T:::::::::T       "
+    write-host "CCC::::::::::::C         T:::::::::T            T:::::::::T       "
+    write-host "  CCCCCCCCCCCCC          TTTTTTTTTTT            TTTTTTTTTTT       "
+    write-host ""
+    write-host "====Chris Titus Tech====="
+    write-host "=====Windows Toolbox====="
+                           
+ 
+    #====DEBUG GUI Elements====
+
+    #write-host "Found the following interactable elements from our form" -ForegroundColor Cyan
+    #get-variable WPF*
 }
  
 Get-FormVariables
@@ -203,7 +229,7 @@ $WPFinstall.Add_Click({
             $WPFInstallterminal.IsChecked = $false
         }
         If ( $WPFInstallttaskbar.IsChecked -eq $true ) { 
-            $wingetinstall.Add("TranslucentTB.TranslucentTB")
+            $wingetinstall.Add("9PF4KZ2VN4W9")
             $WPFInstallttaskbar.IsChecked = $false
         }
         If ( $WPFInstallvlc.IsChecked -eq $true ) { 
@@ -566,10 +592,12 @@ $WPFtweaksbutton.Add_Click({
         }
 
         If ( $WPFEssTweaksDVR.IsChecked -eq $true ) {
-            Set-ItemProperty -Path "HKLM:\System\GameConfigStore" -Name "GameDVR_DXGIHonorFSEWindowsCompatible" -Type Hex -Value 00000000
-            Set-ItemProperty -Path "HKLM:\System\GameConfigStore" -Name "GameDVR_HonorUserFSEBehaviorMode" -Type Hex -Value 00000000
-            Set-ItemProperty -Path "HKLM:\System\GameConfigStore" -Name "GameDVR_EFSEFeatureFlags" -Type Hex -Value 00000000
-            Set-ItemProperty -Path "HKLM:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 00000000
+            If (!(Test-Path "HKCU:\System\GameConfigStore")) {
+            Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_DXGIHonorFSEWindowsCompatible" -Type Hex -Value 00000000
+            Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_HonorUserFSEBehaviorMode" -Type Hex -Value 00000000
+            Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_EFSEFeatureFlags" -Type Hex -Value 00000000
+            Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 00000000
+            }
             $WPFEssTweaksDVR.IsChecked = $false
         }
         If ( $WPFEssTweaksHiber.IsChecked -eq $true  ) {
@@ -583,11 +611,6 @@ $WPFtweaksbutton.Add_Click({
 
         }
         If ( $WPFEssTweaksHome.IsChecked -eq $true ) {
-            Write-Host "Allowing Home Groups services..."
-            Stop-Service "HomeGroupListener" -WarningAction SilentlyContinue
-            Set-Service "HomeGroupListener" -StartupType Manual
-            Stop-Service "HomeGroupProvider" -WarningAction SilentlyContinue
-            Set-Service "HomeGroupProvider" -StartupType Manual
             $WPFEssTweaksHome.IsChecked = $false
         }
         If ( $WPFEssTweaksLoc.IsChecked -eq $true ) {
@@ -611,7 +634,7 @@ $WPFtweaksbutton.Add_Click({
         }
         If ( $WPFEssTweaksRP.IsChecked -eq $true ) {
             Write-Host "Creating Restore Point in case something bad happens"
-            Enable-ComputerRestore -Drive "C:\"
+            Enable-ComputerRestore -Drive "$env:SystemDrive"
             Checkpoint-Computer -Description "RestorePoint1" -RestorePointType "MODIFY_SETTINGS"
             $WPFEssTweaksRP.IsChecked = $false
         }
@@ -636,7 +659,7 @@ $WPFtweaksbutton.Add_Click({
                 "DPS"                                          # Diagnostic Policy Service (Detects and Troubleshoots Potential Problems)
                 "edgeupdate"                                   # Edge Update Service
                 "edgeupdatem"                                  # Another Update Service
-                "EntAppSvc"                                    # Enterprise Application Management.
+                #"EntAppSvc"                                    # Enterprise Application Management.
                 "Fax"                                          # Fax Service
                 "fhsvc"                                        # Fax History
                 "FontCache"                                    # Windows font cache
@@ -650,7 +673,7 @@ $WPFtweaksbutton.Add_Click({
                 "MapsBroker"                                   # Downloaded Maps Manager
                 "MicrosoftEdgeElevationService"                # Another Edge Update Service
                 "MSDTC"                                        # Distributed Transaction Coordinator
-                "ndu"                                          # Windows Network Data Usage Monitor (Disabling Breaks Task Manager Per-Process Network Monitoring)
+                #"ndu"                                          # Windows Network Data Usage Monitor (Disabling Breaks Task Manager Per-Process Network Monitoring)
                 "NetTcpPortSharing"                            # Net.Tcp Port Sharing Service
                 "PcaSvc"                                       # Program Compatibility Assistant Service
                 "PerfHost"                                     # Remote users and 64-bit processes to query performance.
@@ -818,19 +841,18 @@ $WPFtweaksbutton.Add_Click({
             Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}" -Recurse -ErrorAction SilentlyContinue  
         
             ## Performance Tweaks and More Telemetry
-            Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching" -Name "SearchOrderConfig" -Type DWord -Value 00000000
-            Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name "SystemResponsiveness" -Type DWord -Value 0000000a
-            Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 0000000a
+            Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching" -Name "SearchOrderConfig" -Type DWord -Value 0
+            Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name "SystemResponsiveness" -Type DWord -Value 10
+            Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 10
             Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control" -Name "WaitToKillServiceTimeout" -Type DWord -Value 2000
-            Set-ItemProperty -Path "HKLM:\Control Panel\Desktop" -Name "MenuShowDelay" -Type DWord -Value 1
-            Set-ItemProperty -Path "HKLM:\Control Panel\Desktop" -Name "WaitToKillAppTimeout" -Type DWord -Value 5000
-            Set-ItemProperty -Path "HKLM:\Control Panel\Desktop" -Name "HungAppTimeout" -Type DWord -Value 4000
-            Set-ItemProperty -Path "HKLM:\Control Panel\Desktop" -Name "AutoEndTasks" -Type DWord -Value 1
-            Set-ItemProperty -Path "HKLM:\Control Panel\Desktop" -Name "LowLevelHooksTimeout" -Type DWord -Value 00001000
-            Set-ItemProperty -Path "HKLM:\Control Panel\Desktop" -Name "WaitToKillServiceTimeout" -Type DWord -Value 00002000
-            Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" -Name "ClearPageFileAtShutdown" -Type DWord -Value 00000000
-            Set-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Services\Ndu" -Name "Start" -Type DWord -Value 00000004
-            Set-ItemProperty -Path "HKLM:\Control Panel\Mouse" -Name "MouseHoverTime" -Type DWord -Value 00000010
+            Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "MenuShowDelay" -Type DWord -Value 1
+            Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "WaitToKillAppTimeout" -Type DWord -Value 5000
+            Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "HungAppTimeout" -Type DWord -Value 4000
+            Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "AutoEndTasks" -Type DWord -Value 1
+            Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "LowLevelHooksTimeout" -Type DWord -Value 1000
+            Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "WaitToKillServiceTimeout" -Type DWord -Value 2000
+            Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" -Name "ClearPageFileAtShutdown" -Type DWord -Value 0
+            Set-ItemProperty -Path "HKCU:\Control Panel\Mouse" -Name "MouseHoverTime" -Type DWord -Value 10
 
 
             # Network Tweaks
@@ -841,7 +863,10 @@ $WPFtweaksbutton.Add_Click({
             Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control" -Name "SvcHostSplitThresholdInKB" -Type DWord -Value $ram -Force
 
             Write-Host "Disable News and Interests"
-            Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds" -Name "EnableFeeds" -Type DWord -Value 0
+            If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds")) {
+                New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds" | Out-Null
+            }
+            Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds" -Name "EnableFeeds" -Type DWord -Value 0
             # Remove "News and Interest" from taskbar
             Set-ItemProperty -Path  "HKCU:\Software\Microsoft\Windows\CurrentVersion\Feeds" -Name "ShellFeedsTaskbarViewMode" -Type DWord -Value 2
 
@@ -867,15 +892,20 @@ $WPFtweaksbutton.Add_Click({
         }
         If ( $WPFEssTweaksWifi.IsChecked -eq $true ) {
             Write-Host "Disabling Wi-Fi Sense..."
-            If (!(Test-Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting")) {
-                New-Item -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting" -Force | Out-Null
+            If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting")) {
+                New-Item -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting" -Force | Out-Null
             }
-            Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting" -Name "Value" -Type DWord -Value 0
-            Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots" -Name "Value" -Type DWord -Value 0
+            Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting" -Name "Value" -Type DWord -Value 0
+            If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots")) {
+                New-Item -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots" -Force | Out-Null
+            }
+            Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots" -Name "Value" -Type DWord -Value 0
             $WPFEssTweaksWifi.IsChecked = $false
         }
         If ( $WPFMiscTweaksLapPower.IsChecked -eq $true ) {
-            Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Power\PowerThrottling" -Name "PowerThrottlingOff" -Type DWord -Value 00000000
+            If (Test-Path "HKLM:\SYSTEM\CurrentControlSet\Control\Power\PowerThrottling") {
+                Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Power\PowerThrottling" -Name "PowerThrottlingOff" -Type DWord -Value 00000000
+            }
             Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power" -Name "HiberbootEnabled" -Type DWord -Value 0000001
             $WPFMiscTweaksLapPower.IsChecked = $false
         }
@@ -888,7 +918,9 @@ $WPFtweaksbutton.Add_Click({
             $WPFMiscTweaksLapNum.IsChecked = $false
         }
         If ( $WPFMiscTweaksPower.IsChecked -eq $true ) {
-            Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Power\PowerThrottling" -Name "PowerThrottlingOff" -Type DWord -Value 00000001
+            If (Test-Path "HKLM:\SYSTEM\CurrentControlSet\Control\Power\PowerThrottling") {
+                Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Power\PowerThrottling" -Name "PowerThrottlingOff" -Type DWord -Value 00000001
+            }
             Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power" -Name "HiberbootEnabled" -Type DWord -Value 0000000
             $WPFMiscTweaksPower.IsChecked = $false 
         }
@@ -975,7 +1007,6 @@ $WPFtweaksbutton.Add_Click({
                 "Microsoft.XboxGameCallableUI"
                 "Microsoft.XboxSpeechToTextOverlay"
                 "Microsoft.MixedReality.Portal"
-                "Microsoft.XboxIdentityProvider"
                 "Microsoft.ZuneMusic"
                 "Microsoft.ZuneVideo"
                 #"Microsoft.YourPhone"
@@ -1030,6 +1061,22 @@ $WPFtweaksbutton.Add_Click({
             Write-Host "Finished Removing Bloatware Apps"
             $WPFEssTweaksDeBloat.IsChecked = $false
         }
+        Write-Host "Doing Security checks for Administrator Account and Group Policy"
+        if(($(Get-WMIObject -class Win32_ComputerSystem | select username).username).IndexOf('Administrator') -eq -1){
+            net user administrator /active:no
+        }
+    
+        if(!(((Get-ComputerInfo).WindowsEditionId).IndexOf('Core') -eq -1) -or !(((Get-ComputerInfo).WindowsEditionId).IndexOf('Home') -eq -1)){ # Not sure if home edition is Core or Home
+            Write-Host "Enabling gpedit.msc...Group Policy for Home Users"
+            Get-ChildItem @(
+                "$env:SystemDrive\Windows\servicing\Packages\Microsoft-Windows-GroupPolicy-ClientTools-Package*.mum",
+                "$env:SystemDrive\Windows\servicing\Packages\Microsoft-Windows-GroupPolicy-ClientExtensions-Package*.mum"
+            ) | ForEach-Object { dism.exe /online /norestart /add-package:"$_" }
+        }
+        Write-Host "================================="
+        Write-Host "--     Tweaks are Finished    ---"
+        Write-Host "================================="
+        
         $ButtonType = [System.Windows.MessageBoxButton]::OK
         $MessageboxTitle = "Tweaks are Finished "
         $Messageboxbody = ("Done")
@@ -1042,7 +1089,7 @@ $WPFtweaksbutton.Add_Click({
 #===========================================================================
 $WPFundoall.Add_Click({
         Write-Host "Creating Restore Point in case something bad happens"
-        Enable-ComputerRestore -Drive "C:\"
+        Enable-ComputerRestore -Drive "$env:SystemDrive"
         Checkpoint-Computer -Description "RestorePoint1" -RestorePointType "MODIFY_SETTINGS"
 
         Write-Host "Enabling Telemetry..."
@@ -1062,7 +1109,7 @@ $WPFundoall.Add_Click({
         Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338389Enabled" -Type DWord -Value 1
         Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-353698Enabled" -Type DWord -Value 1
         Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SystemPaneSuggestionsEnabled" -Type DWord -Value 1
-        If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent")) {
+        If (Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent") {
             Remove-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Recurse -ErrorAction SilentlyContinue
         }
         Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value 0
@@ -1071,7 +1118,7 @@ $WPFundoall.Add_Click({
         Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "PublishUserActivities" -Type DWord -Value 1
         Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "UploadUserActivities" -Type DWord -Value 1
         Write-Host "Enable Location Tracking..."
-        If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location")) {
+        If (Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location") {
             Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Recurse -ErrorAction SilentlyContinue
         }
         Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Name "Value" -Type String -Value "Allow"
@@ -1080,18 +1127,18 @@ $WPFundoall.Add_Click({
         Write-Host "Enabling automatic Maps updates..."
         Set-ItemProperty -Path "HKLM:\SYSTEM\Maps" -Name "AutoUpdateEnabled" -Type DWord -Value 1
         Write-Host "Enabling Feedback..."
-        If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules")) {
+        If (Test-Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules") {
             Remove-Item -Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" -Recurse -ErrorAction SilentlyContinue
         }
         Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" -Name "NumberOfSIUFInPeriod" -Type DWord -Value 0
         Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "DoNotShowFeedbackNotifications" -Type DWord -Value 0
         Write-Host "Enabling Tailored Experiences..."
-        If (!(Test-Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent")) {
+        If (Test-Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent") {
             Remove-Item -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Recurse -ErrorAction SilentlyContinue
         }
         Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableTailoredExperiencesWithDiagnosticData" -Type DWord -Value 0
         Write-Host "Disabling Advertising ID..."
-        If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo")) {
+        If (Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo") {
             Remove-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo" -Recurse -ErrorAction SilentlyContinue
         }
         Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo" -Name "DisabledByGroupPolicy" -Type DWord -Value 0
@@ -1121,7 +1168,7 @@ $WPFundoall.Add_Click({
         Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization" -Name "NoLockScreen" -ErrorAction SilentlyContinue
 
         Write-Host "Hiding file operations details..."
-        If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager")) {
+        If (Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager") {
             Remove-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager" -Recurse -ErrorAction SilentlyContinue
         }
         Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager" -Name "EnthusiastMode" -Type DWord -Value 0
@@ -1262,16 +1309,6 @@ $WPFUpdatesdefault.Add_Click({
         Set-StrictMode -Version Latest
         $ProgressPreference = 'SilentlyContinue'
         $ErrorActionPreference = 'Stop'
-        trap {
-            Write-Host
-            Write-Host "ERROR: $_"
-            Write-Host (($_.ScriptStackTrace -split '\r?\n') -replace '^(.*)$', 'ERROR: $1')
-            Write-Host (($_.Exception.ToString() -split '\r?\n') -replace '^(.*)$', 'ERROR EXCEPTION: $1')
-            Write-Host
-            Write-Host 'Sleeping for 60m to give you time to look around the virtual machine before self-destruction...'
-            Start-Sleep -Seconds (60 * 60)
-            Exit 1
-        }
 
         # disable automatic updates.
         # XXX this does not seem to work anymore.
@@ -1354,6 +1391,7 @@ $WPFUpdatesdefault.Add_Click({
         Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "DeferFeatureUpdatesPeriodInDays" -ErrorAction SilentlyContinue
         Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "DeferQualityUpdatesPeriodInDays " -ErrorAction SilentlyContinue
     })
+
 $WPFFixesUpdate.Add_Click({
         ### Reset Windows Update Script - reregister dlls, services, and remove registry entires.
         Write-Host "1. Stopping Windows Update Services..." 
@@ -1419,9 +1457,9 @@ $WPFFixesUpdate.Add_Click({
         regsvr32.exe /s wuwebv.dll 
     
         Write-Host "7) Removing WSUS client settings..." 
-        REG DELETE "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate" /v AccountDomainSid /f 
-        REG DELETE "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate" /v PingID /f 
-        REG DELETE "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate" /v SusClientId /f 
+        REG DELETE "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate" /v AccountDomainSid /f 
+        REG DELETE "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate" /v PingID /f 
+        REG DELETE "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate" /v SusClientId /f 
     
         Write-Host "8) Resetting the WinSock..." 
         netsh winsock reset 
@@ -1461,16 +1499,6 @@ $WPFUpdatesdisable.Add_Click({
         Set-StrictMode -Version Latest
         $ProgressPreference = 'SilentlyContinue'
         $ErrorActionPreference = 'Stop'
-        trap {
-            Write-Host
-            Write-Host "ERROR: $_"
-            Write-Host (($_.ScriptStackTrace -split '\r?\n') -replace '^(.*)$', 'ERROR: $1')
-            Write-Host (($_.Exception.ToString() -split '\r?\n') -replace '^(.*)$', 'ERROR EXCEPTION: $1')
-            Write-Host
-            Write-Host 'Sleeping for 60m to give you time to look around the virtual machine before self-destruction...'
-            Start-Sleep -Seconds (60 * 60)
-            Exit 1
-        }
 
         # disable automatic updates.
         # XXX this does not seem to work anymore.
